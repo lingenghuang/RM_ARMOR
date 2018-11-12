@@ -19,9 +19,6 @@ class GetLightblob
   public:
     GetLightblob();
     GetLightblob(vector<vector<Point> > find_contours, Mat hsv_img);
-    float rectang_k(RotatedRect tmp_rectangle);
-    float distances(Point2f pt_1, Point2f pt_2);
-    float get_angle(float rect_k);
     void draw(Mat &show_img);
   private:
     vector<RotatedRect> fit_rectangle;
