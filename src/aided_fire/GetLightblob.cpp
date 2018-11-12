@@ -1,21 +1,11 @@
 #include "GetLightblob.h"
 
-float GetLightblob::distances(Point2f pt_1, Point2f pt_2)    //计算两点距离
+float distances(Point2f pt_1, Point2f pt_2)    //计算两点距离
 {
   return sqrt(pow(pt_1.x-pt_2.x, 2)+pow(pt_1.y-pt_2.y, 2));
 }
 
-float GetLightblob::rectang_k(RotatedRect tmp_rectangle)     //返回拟合矩形的角度
-{
-    Point2f tmp_points[4];
-    tmp_rectangle.points(tmp_points);
-    if (distances(tmp_points[0], tmp_points[1]) > distances(tmp_points[1], tmp_points[2]))
-        return get_angle(tmp_points[0], tmp_points[1]);
-    else
-        return get_angle(tmp_points[1], tmp_points[2]);
-}
-
-float GetLightblob::get_angle(Point2f pt_1, Point2f pt_2)    //转换为角度值（与水平线夹角，逆时针增加，90度即为垂直）
+float get_angle(Point2f pt_1, Point2f pt_2)    //转换为角度值（与水平线夹角，逆时针增加，90度即为垂直）
 {
     if(pt_1.x==pt_2.x) 
         return 90;
@@ -26,6 +16,17 @@ float GetLightblob::get_angle(Point2f pt_1, Point2f pt_2)    //转换为角度�
     }    
         
 }
+
+float rectang_k(RotatedRect tmp_rectangle)     //返回拟合矩形的角度
+{
+    Point2f tmp_points[4];
+    tmp_rectangle.points(tmp_points);
+    if (distances(tmp_points[0], tmp_points[1]) > distances(tmp_points[1], tmp_points[2]))
+        return get_angle(tmp_points[0], tmp_points[1]);
+    else
+        return get_angle(tmp_points[1], tmp_points[2]);
+}
+
 
 GetLightblob::GetLightblob(vector<vector<Point> > find_contours, Mat hsv_img)
 {
@@ -55,7 +56,7 @@ void GetLightblob::draw(Mat &show_img)
 {
     for (int i = 0; i < fit_rectangle.size(); i++)
     {
-        ellipse(show_img, tmp_rectangle[i], Scalar(0, 255, 255), 3); //TODO
+        ellipse(show_img, fit_rectangle[i], Scalar(0, 255, 255), 3); //TODO
                                                                      //方便起见，暂时用椭圆
     }
 }

@@ -11,6 +11,9 @@ using namespace std;
 #define MIN_ANGLE 45
 #define MAX_ANGLE 135
 
+float rectang_k(RotatedRect tmp_rectangle);
+float distances(Point2f pt_1, Point2f pt_2);
+float get_angle(float rect_k);
 class GetLightblob
 {
   public:
