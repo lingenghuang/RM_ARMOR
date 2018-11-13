@@ -14,10 +14,13 @@ using namespace std;
 
 float distances(Point2f pt_1, Point2f pt_2);
 float get_angle(float rect_k);
-struct TrueBlob            //一个用于储存装甲条及其长宽信息的结构体
+struct TrueBlob            //一个用于储存装甲条完整信息的结构体
 {
+    Point2f top_point;
+    Point2f bottom_point;
     float blob_length;
     float blob_width;
+    float blob_angle;
     RotatedRect light_blob;
 };
 class GetLightblob
@@ -30,6 +33,8 @@ class GetLightblob
     vector<TrueBlob> fit_blob;
   private:
     RotatedRect tmp_rectangle;
+    Point2f tmp_top;
+    Point2f tmp_bottom;
 };
 
 

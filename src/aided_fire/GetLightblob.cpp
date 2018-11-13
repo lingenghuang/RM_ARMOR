@@ -22,11 +22,36 @@ float GetLightblob::rectang_k()     //返回拟合矩形的角度
 {
     Point2f tmp_points[4];
     tmp_rectangle.points(tmp_points);
-    if (distances(tmp_points[0], tmp_points[1]) > distances(tmp_points[1], tmp_points[2]))
-        
+    if (distances(tmp_points[0], tmp_points[1]) > distances(tmp_points[1], tmp_points[2]))       //确定矩形长边
+    {
+        if(tmp_points[0].y<tmp_points[1].y)                                                      //暂定装甲片的上顶点和下顶点
+        {
+            tmp_top=(tmp_points[0]+tmp_points[3])/2.;
+            tmp_bottom=(tmp_points[1]+tmp_points[2])/2.;
+        }    
+        else
+        {
+            tmp_top=(tmp_points[1]+tmp_points[2])/2.;
+            tmp_bottom=(tmp_points[0]+tmp_points[3])/2.;
+        }    
         return get_angle(tmp_points[0], tmp_points[1]);
-    else
+    }    
+        
+    else                                                                                         //暂定装甲片的上顶点和下顶点
+    {
+        if(tmp_points[1].y<tmp_points[2].y)
+        {
+            tmp_top=(tmp_points[1]+tmp_points[0])/2.;
+            tmp_bottom=(tmp_points[2]+tmp_points[3])/2.;
+        }
+        else
+        {
+            tmp_top=(tmp_points[2]+tmp_points[3])/2.;
+            tmp_bottom=(tmp_points[1]+tmp_points[0])/2.;
+        }
         return get_angle(tmp_points[1], tmp_points[2]);
+    }    
+        
 }
 
 
@@ -48,10 +73,13 @@ GetLightblob::GetLightblob(vector<vector<Point> > find_contours, Mat hsv_img)
                 float rect_angle=rectang_k();
                 if (rect_angle>MIN_ANGLE&&rect_angle<MAX_ANGLE)        //根据斜率排除误识别
                 {
-                    TrueBlob tmp_blob;
+                    TrueBlob tmp_blob;                                 //返回拟合的装甲条信息：上顶点，下顶点，角度，长，宽，形状
+                    tmp_blob.top_point=tmp_top;
+                    tmp_blob.bottom_point=tmp_bottom;
+                    tmp_blob.blob_angle=rect_angle;
                     tmp_blob.blob_length=rect_length;
                     tmp_blob.blob_width=rect_width;
-                    tmp_blob.light_blob=tmp_rectangle;
+                    tmp_blob.light_blob=tmp_rectangle;                 //TODO     (返回的信息只用于调试，可去除，但同时得对结构体进行修改)
                     fit_blob.push_back(tmp_blob);
                 }
             }

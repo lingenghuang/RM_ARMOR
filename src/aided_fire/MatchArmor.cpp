@@ -17,7 +17,7 @@ MatchArmor::MatchArmor(GetLightblob &light_blobs)
         {
             for(int j=i+1;j<light_blobs.fit_blob.size();j++)
             {
-                
+                if()
             }
         }
     }
